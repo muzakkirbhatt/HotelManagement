@@ -93,17 +93,31 @@ public class JDBCRestaurantResList {
 	 * @return Returns true if reservation was deleted successfully, if not returns
 	 *         false
 	 */
-	public boolean deleteReservation(int reservationID) {
-		String sql = "DELETE FROM hotel.restaurant_reservation_list WHERE id = '" + reservationID + "'";
+	public RestaurantReservationForm deleteReservation(int reservationID) {
+		RestaurantReservationForm form = new RestaurantReservationForm();
+		String sql = "SELECT * FROM hotel.restaurant_reservation_list WHERE id = '" + reservationID + "'";
+		String sql2 = "DELETE FROM hotel.restaurant_reservation_list WHERE id = '" + reservationID + "'";
 		try {
-			stmt.executeUpdate(sql);
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				form.setRR_id(rs.getInt(1));
+				form.setTableNum(rs.getInt(2));
+				form.setNumOfGuests(rs.getInt(3));
+				form.setResDate(rs.getString(4));
+				form.setGuest_id(rs.getInt(5));
+				System.out.println(form.toString());
+			}
+
+			stmt.executeUpdate(sql2);
+
 		} catch (SQLException e) {
 			System.out.println("Delete failed");
 			e.printStackTrace();
-			return false;
+			return form;
 		}
+
 		System.out.println("Sucessfully Deleted Reservervation");
-		return true;
+		return form;
 	}
 
 	/**

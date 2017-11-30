@@ -49,7 +49,7 @@ public class RestaurantResList {
 	 * @return Returns true if reservation was deleted successfully, if not returns
 	 *         false
 	 */
-	public boolean deleteReservation(int reservationID) {
+	public RestaurantReservationForm deleteReservation(int reservationID) {
 		return db.deleteReservation(reservationID);
 	}
 
