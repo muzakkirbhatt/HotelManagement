@@ -30,7 +30,7 @@ public class JDBCRestaurantResList {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			System.out.println("MySQL JDBC Driver Missing");
-			e.printStackTrace();
+			e.printStackTrace(); 
 			return;
 		}
 
