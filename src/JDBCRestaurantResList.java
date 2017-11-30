@@ -94,7 +94,16 @@ public class JDBCRestaurantResList {
 	 *         false
 	 */
 	public boolean deleteReservation(int reservationID) {
-		return false;
+		String sql = "DELETE FROM hotel.restaurant_reservation_list WHERE id = '" + reservationID + "'";
+		try {
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("Delete failed");
+			e.printStackTrace();
+			return false;
+		}
+		System.out.println("Sucessfully Deleted Reservervation");
+		return true;
 	}
 
 	/**
@@ -105,8 +114,19 @@ public class JDBCRestaurantResList {
 	 * @return Returns true if reservation was updated successfully, if not returns
 	 *         false
 	 */
-	public boolean updateReservation(int reservationID, RestaurantReservationForm updateReservation) {
-		return false;
+	public boolean updateReservation(int reservationID, RestaurantReservationForm newRes) {
+		String sql = "UPDATE hotel.restaurant_reservation_list" + " SET tableNum =" + "'" + newRes.getTableNum() + "'"
+				+ ", numGuests =" + "'" + newRes.getNumOfGuests() + "'" + ", date =" + "'" + newRes.getResDate() + "'"
+				+ "WHERE id = " + reservationID;
+		try {
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("Update failed");
+			e.printStackTrace();
+			return false;
+		}
+		System.out.println("Sucessfully Updated Reservervation");
+		return true;
 	}
 
 	/**
@@ -157,17 +177,17 @@ public class JDBCRestaurantResList {
 	 */
 	public List<RestaurantReservationForm> viewResReservations() throws SQLException {
 		List<RestaurantReservationForm> list = new ArrayList<RestaurantReservationForm>();
-		RestaurantReservationForm form = new RestaurantReservationForm();
 		String sql = "SELECT * FROM hotel.restaurant_reservation_list";
 		ResultSet rs = stmt.executeQuery(sql);
 		while (rs.next()) {
+			RestaurantReservationForm form = new RestaurantReservationForm();
 			form.setRR_id(rs.getInt(1));
 			form.setTableNum(rs.getInt(2));
 			form.setNumOfGuests(rs.getInt(3));
 			form.setResDate(rs.getString(4));
 			form.setGuest_id(rs.getInt(5));
+			list.add(form);
 		}
-		list.add(form);
 
 		return list;
 	}

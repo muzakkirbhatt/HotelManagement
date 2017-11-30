@@ -10,23 +10,23 @@ import java.util.List;
  */
 public class RestaurantResList {
 
-	/** The db connection. */
-	private JDBCRestaurantResList db_connection;
+	/** DB Connection */
+	private JDBCRestaurantResList db;
 
-	/** The host. */
+	/** Host */
 	public final String host = "jdbc:mysql://localhost:3306/";
 
-	/** The user. */
+	/** User */
 	public final String user = "root";
 
-	/** The password. */
+	/** Password */
 	public final String password = "";
 
 	/**
 	 * Instantiates a new reservation list.
 	 */
 	public RestaurantResList() {
-		db_connection = new JDBCRestaurantResList(host, user, password);
+		db = new JDBCRestaurantResList(host, user, password);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class RestaurantResList {
 	 *         returns false
 	 */
 	public boolean add(RestaurantReservationForm newReservation) {
-		return db_connection.add(newReservation);
+		return db.add(newReservation);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class RestaurantResList {
 	 *         false
 	 */
 	public boolean deleteReservation(int reservationID) {
-		return false;
+		return db.deleteReservation(reservationID);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class RestaurantResList {
 	 *         false
 	 */
 	public boolean updateReservation(int reservationID, RestaurantReservationForm updateRes) {
-		return false;
+		return db.updateReservation(reservationID, updateRes);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class RestaurantResList {
 	 * @throws SQLException
 	 */
 	public RestaurantReservationForm searchReservation(int reservationID) throws SQLException {
-		return db_connection.searchReservation(reservationID);
+		return db.searchReservation(reservationID);
 	}
 
 	/**
@@ -83,10 +83,10 @@ public class RestaurantResList {
 	 * @param Reservation
 	 *            ID
 	 * @return Returns a List of All Restaurant Reservations
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public List<RestaurantReservationForm> viewResReservation() throws SQLException {
-		return db_connection.viewResReservations();
+		return db.viewResReservations();
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.Date;
  * The class RestaurantReservationForm has the responsibility for defining and
  * storing restaurant reservations
  *
- * @author Erventz Bien-Aime Team 1
+ * @author Muzakkir
  * @version 1.0
  */
 public class RestaurantReservationForm {
@@ -142,7 +142,7 @@ public class RestaurantReservationForm {
 
 	@Override
 	public String toString() {
-		return "Reservation Found [Guest ID: " + guest_id + ", Table Number: " + tableNum + ", Reservation Date: "
+		return "\nReservation Found [Guest ID: " + guest_id + ", Table Number: " + tableNum + ", Reservation Date: "
 				+ resDate + ", Reservation ID: " + RR_id + ", Number of Guests: " + numOfGuests + "]";
 
 	}
