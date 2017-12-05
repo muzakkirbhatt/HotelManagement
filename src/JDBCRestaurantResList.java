@@ -23,8 +23,18 @@ public class JDBCRestaurantResList {
 
 	private Connection conn;
 	Statement stmt;
+	/** Host */
+	public final String host = "jdbc:mysql://localhost:3306/";
 
-	public JDBCRestaurantResList(String host, String user, String pass) {
+	/** User */
+	public final String user = "root";
+
+	/** Password */
+	public final String password = "";
+	
+	
+
+	public JDBCRestaurantResList() {
 		// connect to the database
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -37,7 +47,7 @@ public class JDBCRestaurantResList {
 		System.out.println("MySQL JDBC Driver Registered!");
 
 		try {
-			conn = DriverManager.getConnection(host, user, pass);
+			conn = DriverManager.getConnection(host, user, password);
 			stmt = conn.createStatement();
 			System.out.println("Connection Successful");
 		} catch (SQLException e) {

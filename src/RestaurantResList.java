@@ -13,20 +13,8 @@ public class RestaurantResList {
 	/** DB Connection */
 	private JDBCRestaurantResList db;
 
-	/** Host */
-	public final String host = "jdbc:mysql://localhost:3306/";
-
-	/** User */
-	public final String user = "root";
-
-	/** Password */
-	public final String password = "";
-
-	/**
-	 * Instantiates a new reservation list.
-	 */
 	public RestaurantResList() {
-		db = new JDBCRestaurantResList(host, user, password);
+		db = new JDBCRestaurantResList();
 	}
 
 	/**

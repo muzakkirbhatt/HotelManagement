@@ -9,13 +9,25 @@ import java.util.List;
  */
 public class ServiceList {
 
-	public List<Service> serviceList = new ArrayList<Service>();
+	/** DB Connection */
+	private JDBCServiceList db;
+
+	/** Host */
+	public final String host = "jdbc:mysql://localhost:3306/";
+
+	/** User */
+	public final String user = "root";
+
+	/** Password */
+	public final String password = "";
 
 	/**
 	 * This is a default constructor for the Service List.Its member variables will be set to default values.
 	 */
 	public ServiceList() {
-
+			
+		db = new JDBCServiceList(host,user,password);
+		
 	}
 
 	/**
@@ -24,7 +36,7 @@ public class ServiceList {
 	 * @return Returns true if new service was added successfully, if not returns false 
 	 */
 	public boolean addService(Service newService) {
-		return false;
+		return db.addService(newService);
 	}
 
 	/**

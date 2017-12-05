@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +13,30 @@ import java.util.List;
 public class JDBCServiceList {
 	public List<Service> serviceList = new ArrayList<Service>();
 
-	/**
-	 * This is a default constructor for the JDBCServiceList.Its member variables will be set to default values.
-	 */
-	public JDBCServiceList() {
+	private Connection conn;
+	Statement stmt;
 
+	public JDBCServiceList(String host, String user, String pass) {
+		// connect to the database
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("MySQL JDBC Driver Missing");
+			e.printStackTrace(); 
+			return;
+		}
+
+		System.out.println("MySQL JDBC Driver Registered!");
+
+		try {
+			conn = DriverManager.getConnection(host, user, pass);
+			stmt = conn.createStatement();
+			System.out.println("Connection Successful");
+		} catch (SQLException e) {
+			System.out.println("Connection Failed!");
+			e.printStackTrace();
+			return;
+		}
 	}
 
 	/**
