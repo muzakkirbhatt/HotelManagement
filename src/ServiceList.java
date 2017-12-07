@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,21 +13,12 @@ public class ServiceList {
 	/** DB Connection */
 	private JDBCServiceList db;
 
-	/** Host */
-	public final String host = "jdbc:mysql://localhost:3306/";
-
-	/** User */
-	public final String user = "root";
-
-	/** Password */
-	public final String password = "";
-
 	/**
 	 * This is a default constructor for the Service List.Its member variables will be set to default values.
 	 */
 	public ServiceList() {
 			
-		db = new JDBCServiceList(host,user,password);
+		db = new JDBCServiceList();
 		
 	}
 
@@ -44,8 +36,8 @@ public class ServiceList {
 	 * @param ServiceID The number that identifies the Service ID
 	 * @return Returns true if service was deleted successfully, if not returns false 
 	 */
-	public boolean deleteService(int ServiceID) {
-		return false;
+	public Service deleteService(int listID) {
+		return db.deleteService(listID);
 	}
 
 	/**
@@ -60,11 +52,12 @@ public class ServiceList {
 
 	/**
 	 * Searches the Database and Returns the Service Found
-	 * @param ServiceID The number that identifies the Service ID
+	 * @param listID The number that identifies the Service ID
 	 * @return Returns the Service based on Service ID, if found.
+	 * @throws SQLException 
 	 */
-	public Service searchService(int ServiceID) {
-		return null;
+	public Service searchService(int listID) throws SQLException {
+		return db.searchService(listID);
 	}
 
 	/**

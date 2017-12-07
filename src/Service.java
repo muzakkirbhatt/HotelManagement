@@ -7,15 +7,17 @@ import java.util.Date;
  */
 public class Service {
 
+	int list_id;
+	
+	int id;
+	
+	String name;
+	
 	double price;
 
-	String name;
-
-	Date date;
-
-	int id;
-
 	int guest_id;
+	
+	String date;
 
 	/**
 	 * This is a default constructor for the Service.Its member variables will be set to default values.
@@ -23,20 +25,22 @@ public class Service {
 	public Service() {
 
 	}
-
-	/**
-	 * Non-default Constructor to create new instance of Service where the parameter is Date and Guest ID.
-	 * 
-	 * @param date The date the guest makes a Service request for.
-	 * @param guest_id The number that identifies the Guest
-	 */
-	public Service(Date date, int guest_id) {
-		this.date = date;
+	
+	public Service(int service_id, int guest_id, String date_requested) {
+		this.id = service_id;
 		this.guest_id = guest_id;
-
+		this.date = date_requested;
+	}
+	
+	 public int getList_id() {
+		return list_id;
 	}
 
-	 /**
+	public void setList_id(int list_id) {
+		this.list_id = list_id;
+	}
+
+	/**
 	  * This is Accessor used to Obtain Price of the Service 
 	  * @return The price of the Service 
 	 */
@@ -72,7 +76,7 @@ public class Service {
 	 * Accessor used to Obtain the Date when the service was requested
 	 * @return the service date when it was requested
 	 */
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
@@ -80,7 +84,7 @@ public class Service {
 	 * Mutator used to set the Date instance variable
 	 * @param date The Service request Date
 	 */
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -116,4 +120,13 @@ public class Service {
 		this.guest_id = guest_id;
 	}
 
+	@Override
+	public String toString() {
+		return "Requested Service Found:  [List ID: " + list_id + ", Service ID: " + id + ", Service Name: " + name + ", Service Price: " + price + ", Guest ID: "
+				+ guest_id + ", Date Requested: " + date + "]";
+	}
+
+	
+	
+	
 }
