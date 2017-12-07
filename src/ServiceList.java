@@ -42,12 +42,12 @@ public class ServiceList {
 
 	/**
 	 * Updates Service in the Database
-	 * @param ServiceID The number that identifies the Service ID which needs to be updates
+	 * @param listID The number that identifies the Service ID which needs to be updates
 	 * @param serviceUpdate The service which need to be updated
 	 * @return Returns true if Service was updated successfully, if not returns false
 	 */
-	public boolean updateService(int ServiceID, Service serviceUpdate) {
-		return false;
+	public boolean updateService(int listID, Service serviceUpdate) {
+		return db.updateService(listID, serviceUpdate);
 	}
 
 	/**
@@ -63,8 +63,9 @@ public class ServiceList {
 	/**
 	 * This method views the list of all Services in the Database
 	 * @return Returns a List of All Services in a Hashmap
+	 * @throws SQLException 
 	 */
-	public  List<Service> viewServices() {
-		return null;
+	public  List<Service> viewServices() throws SQLException {
+		return db.viewServices();
 	}
 }

@@ -126,7 +126,7 @@ public class JDBCServiceList {
 	/**
 	 * Updates Service in the Database
 	 * 
-	 * @param ServiceID
+	 * @param listID
 	 *            The number that identifies the Service ID which needs to be
 	 *            updates
 	 * @param serviceUpdate
@@ -134,8 +134,23 @@ public class JDBCServiceList {
 	 * @return Returns true if Service was updated successfully, if not returns
 	 *         false
 	 */
-	public boolean updateService(int ServiceID, Service serviceUpdate) {
-		return false;
+	public boolean updateService(int listID, Service serviceUpdate) {
+		int service_Id = serviceUpdate.getId();
+		String date = serviceUpdate.getDate();
+		int guest_id = serviceUpdate.getGuest_id();
+
+		String sql = "UPDATE hotel.service_list" +
+					 " SET service_ID =" + "'" + service_Id + "'" + ", date_requested =" +
+				     "'" + date + "'" + ", guest_ID =" + "'" + guest_id + "'" + "WHERE list_ID = " + listID;
+		try {
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("Update failed");
+			e.printStackTrace();
+			return false;
+		}
+		System.out.println("Sucessfully Updated Service List");
+		return true;
 	}
 
 	/**
@@ -178,9 +193,24 @@ public class JDBCServiceList {
 	 * This method views the list of all Services in the Database
 	 * 
 	 * @return Returns a List of All Services in a Hashmap
+	 * @throws SQLException
 	 */
-	public List<Service> viewServices() {
-		return null;
+	public List<Service> viewServices() throws SQLException {
+		List<Service> list = new ArrayList<Service>();
+		String sql = "SELECT * FROM hotel.service_list";
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			Service form = new Service();
+			form.setList_id(rs.getInt(1));
+			form.setId(rs.getInt(2));
+			form.setName(rs.getString(3));
+			form.setPrice(rs.getDouble(4));
+			form.setGuest_id(rs.getInt(5));
+			form.setDate(rs.getString(6));
+			list.add(form);
+		}
+
+		return list;
 	}
 
 }

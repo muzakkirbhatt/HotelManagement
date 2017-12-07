@@ -12,10 +12,10 @@ import java.util.concurrent.TimeUnit;
  * method it contains methods such as print menu, prompt user to enter input
  * etc.
  */
-public class Application {
+public class StaffApp {
 
 	public static void main(String[] args) throws SQLException {
-		Application mainApp = new Application();
+		StaffApp mainApp = new StaffApp();
 		mainApp.runApp();
 	}
 
@@ -122,7 +122,7 @@ public class Application {
 		}
 		switch (userInput) {
 		case 1:
-			deleteService();
+			updateService();
 			break;
 		case 2:
 			break;
@@ -148,12 +148,45 @@ public class Application {
 
 	private void requestService() throws SQLException {
 		int guestID = 1; // From Account
-		System.out.println("Please Enter List ID");
+		System.out.println("Please Enter Service ID");
 		int service_id = Integer.parseInt(prompt());
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		Service newService = new Service(service_id, guestID, date);
 		serviceList.addService(newService);
+	}
+
+	private void updateService() {
+		int listID = 0;
+		int service_id = 0;
+		while (listID <= 0) {
+			System.out.println("Please Enter List ID: ");
+			listID = Integer.parseInt(prompt());
+			if (listID <= 0) {
+				System.out.println("List ID cannot be 0!");
+			}
+			while (service_id <= 0) {
+				System.out.println("Please Enter Service ID: ");
+				service_id = Integer.parseInt(prompt());
+				if (service_id <= 0) {
+					System.out.println("Service ID cannot be 0!");
+				}
+
+				int guestID = 0;
+				while (guestID <= 0) {
+					System.out.println("Please Enter Guest ID: ");
+					guestID = Integer.parseInt(prompt());
+					if (guestID <= 0) {
+						System.out.println("Guest ID cannot be 0!");
+					}
+				}
+				System.out.println("Please Enter Date in YYYY-MM-DD Format");
+				String date = prompt();
+				Service newService = new Service(service_id, guestID, date);
+				serviceList.updateService(listID, newService);
+
+			}
+		}
 	}
 
 	private void searchService() throws SQLException {
@@ -167,7 +200,7 @@ public class Application {
 			serviceList.searchService(listID);
 		}
 	}
-	
+
 	private void deleteService() throws SQLException {
 		int listID = 0;
 		while (listID <= 0) {
@@ -178,6 +211,11 @@ public class Application {
 			}
 			serviceList.deleteService(listID);
 		}
+	}
+
+	private void viewAllServices() throws SQLException {
+		List<Service> list = serviceList.viewServices();
+		System.out.println("\n" + list.toString().replace("[", "").replace("]", ""));
 	}
 
 	private void addRestaurant() {
