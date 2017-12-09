@@ -25,12 +25,12 @@ public class GuestApp {
 
 	public void runApp() throws SQLException {
 		while (!Exit) {
-			printServiceMenu();
-			processServiceMenuInput();
+			printMenu();
+			processMenuInput();
 		}
 	}
 
-	public void printServiceMenu() {
+	public void printMenu() {
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
@@ -47,7 +47,12 @@ public class GuestApp {
 		System.out.println("8) Exit");
 	}
 
-	private void processServiceMenuInput() throws SQLException {
+	/**
+	 * Processes the option chosen by user.
+	 * 
+	 * @throws SQLException
+	 */
+	private void processMenuInput() throws SQLException {
 		int userInput = 0;
 
 		try {
@@ -66,18 +71,25 @@ public class GuestApp {
 		}
 		switch (userInput) {
 		case 1:
+			requestService(1);
 			break;
 		case 2:
+			requestService(2);
 			break;
 		case 3:
+			requestService(3);
 			break;
 		case 4:
+			requestService(4);
 			break;
 		case 5:
+			requestService(5);
 			break;
 		case 6:
+			requestService(6);
 			break;
 		case 7:
+			addRestaurant();
 			break;
 		case 8:
 			Exit = true;
@@ -87,10 +99,23 @@ public class GuestApp {
 		}
 	}
 
-	private void addService() throws SQLException {
-		int guestID = 1; // From Account
-		System.out.println("Please Enter List ID");
-		int service_id = Integer.parseInt(prompt());
+	private void requestService(int input) throws SQLException {
+		int service_id = input;
+		while (service_id <= 0) {
+			System.out.println("Please Enter Service ID: ");
+			service_id = Integer.parseInt(prompt());
+			if (service_id <= 0) {
+				System.out.println("Service ID cannot be 0!");
+			}
+		}
+		int guestID = 1; //From account thats logged in
+		while (guestID <= 0) {
+			System.out.println("Please Enter Guest ID: ");
+			guestID = Integer.parseInt(prompt());
+			if (guestID <= 0) {
+				System.out.println("Guest ID cannot be 0!");
+			}
+		}
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		Service newService = new Service(service_id, guestID, date);
@@ -98,11 +123,30 @@ public class GuestApp {
 	}
 
 	private void addRestaurant() {
-		int guestID = 1; // From Account
-		System.out.println("Please Enter Table Number");
-		int tableNum = Integer.parseInt(prompt());
-		System.out.println("Please Enter Number of Guests");
-		int numGuests = Integer.parseInt(prompt());
+		int guestID = 0; //From account thats logged in
+		while (guestID <= 0) {
+			System.out.println("Please Enter Guest ID: ");
+			guestID = Integer.parseInt(prompt());
+			if (guestID <= 0) {
+				System.out.println("Guest ID cannot be 0!");
+			}
+		}
+		int tableNum = 0;
+		while (tableNum <= 0) {
+			System.out.println("Please Enter Table Number: ");
+			tableNum = Integer.parseInt(prompt());
+			if (tableNum <= 0) {
+				System.out.println("Table Number cannot be 0!");
+			}
+		}
+		int numGuests = 0;
+		while (numGuests <= 0) {
+			System.out.println("Please Enter Number of Guests: ");
+			numGuests = Integer.parseInt(prompt());
+			if (numGuests <= 0) {
+				System.out.println("Number of Guests cannot be 0!");
+			}
+		}
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		RestaurantReservationForm newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);

@@ -25,12 +25,12 @@ public class StaffApp {
 
 	public void runApp() throws SQLException {
 		while (!Exit) {
-			printServiceMenu();
-			processServiceMenuInput();
+			printMenu();
+			processMenuInput();
 		}
 	}
 
-	public void printServiceMenu() {
+	public void printMenu() {
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
@@ -47,6 +47,16 @@ public class StaffApp {
 		System.out.println("8) Exit");
 	}
 
+	public void printServiceMenu() {
+		System.out.println("\nHello! Please Enter One of The following Options From The Menu: ");
+		System.out.println("1) Request a Service");
+		System.out.println("2) Search for a Service Request by List ID");
+		System.out.println("3) Update a Service Request by List ID");
+		System.out.println("4) Delete a Service Request by List ID");
+		System.out.println("5) View All Service Requests");
+		System.out.println("6) Return to Previous Menu");
+	}
+
 	public void printRestaurantMenu() {
 		System.out.println("\nHello! Please Enter One of The following Options From The Menu: ");
 		System.out.println("1) Add a New Restaurant Reservation");
@@ -54,7 +64,7 @@ public class StaffApp {
 		System.out.println("3) Update a Restaurant Reservation by Reservation ID");
 		System.out.println("4) Delete a Restaurant Reservation by Reservation ID");
 		System.out.println("5) View All Restaurant Reservations");
-		System.out.println("6) Exit");
+		System.out.println("6) Return to Previous Menu");
 	}
 
 	/**
@@ -62,6 +72,101 @@ public class StaffApp {
 	 * 
 	 * @throws SQLException
 	 */
+	private void processMenuInput() throws SQLException {
+		int userInput = 0;
+
+		try {
+			while (userInput < 1 || userInput > 8) {
+
+				userInput = Integer.parseInt(prompt());
+
+				if (userInput < 1 || userInput > 8) {
+					System.out.println("Invalid Entry! Please Enter A Valid Option From The Menu: ");
+				}
+			}
+
+		} catch (NumberFormatException e) {
+
+			System.out.print("Invalid Entry! Please Enter A Valid Option From The Menu Below ");
+		}
+		switch (userInput) {
+		case 1:
+			printServiceMenu();
+			processServiceInput(1);
+			break;
+		case 2:
+			printServiceMenu();
+			processServiceInput(2);
+			break;
+		case 3:
+			printServiceMenu();
+			processServiceInput(3);
+			break;
+		case 4:
+			printServiceMenu();
+			processServiceInput(4);
+			break;
+		case 5:
+			printServiceMenu();
+			processServiceInput(5);
+			break;
+		case 6:
+			printServiceMenu();
+			processServiceInput(6);
+			break;
+		case 7:
+			printRestaurantMenu();
+			processRestaurantInput();
+			break;
+		case 8:
+			Exit = true;
+			System.out.println("Bye Bye!");
+			break;
+
+		}
+	}
+
+	private void processServiceInput(int input) throws SQLException {
+		int userInput = 0;
+
+		try {
+			while (userInput < 1 || userInput > 6) {
+
+				userInput = Integer.parseInt(prompt());
+
+				if (userInput < 1 || userInput > 6) {
+					System.out.println("Invalid Entry! Please Enter A Valid Option From The Menu: ");
+				}
+			}
+
+		} catch (NumberFormatException e) {
+
+			System.out.print("Invalid Entry! Please Enter A Valid Option From The Menu Below ");
+		}
+		switch (userInput) {
+		case 1:
+			requestService(input);
+			break;
+		case 2:
+			searchService();
+			break;
+		case 3:
+			updateService(input);
+			break;
+		case 4:
+			deleteService();
+			break;
+		case 5:
+			viewAllServices();
+			break;
+		case 6:
+			printMenu();
+			processMenuInput();
+			break;
+
+		}
+	}
+
 	private void processRestaurantInput() throws SQLException {
 		int userInput = 0;
 
@@ -96,82 +201,51 @@ public class StaffApp {
 			viewAllRestaurant();
 			break;
 		case 6:
-			Exit = true;
-			System.out.println("Bye Bye!");
+			printMenu();
+			processMenuInput();
 			break;
 
 		}
 	}
 
-	private void processServiceMenuInput() throws SQLException {
-		int userInput = 0;
-
-		try {
-			while (userInput < 1 || userInput > 8) {
-
-				userInput = Integer.parseInt(prompt());
-
-				if (userInput < 1 || userInput > 8) {
-					System.out.println("Invalid Entry! Please Enter A Valid Option From The Menu: ");
-				}
+	private void requestService(int input) throws SQLException {
+		int service_id = input;
+		while (service_id <= 0) {
+			System.out.println("Please Enter Service ID: ");
+			service_id = Integer.parseInt(prompt());
+			if (service_id <= 0) {
+				System.out.println("Service ID cannot be 0!");
 			}
-
-		} catch (NumberFormatException e) {
-
-			System.out.print("Invalid Entry! Please Enter A Valid Option From The Menu Below ");
 		}
-		switch (userInput) {
-		case 1:
-			updateService();
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7:
-			printRestaurantMenu();
-			processRestaurantInput();
-			break;
-		case 8:
-			Exit = true;
-			System.out.println("Bye Bye!");
-			break;
-
+		int guestID = 0;
+		while (guestID <= 0) {
+			System.out.println("Please Enter Guest ID: ");
+			guestID = Integer.parseInt(prompt());
+			if (guestID <= 0) {
+				System.out.println("Guest ID cannot be 0!");
+			}
 		}
-	}
-
-	private void requestService() throws SQLException {
-		int guestID = 1; // From Account
-		System.out.println("Please Enter Service ID");
-		int service_id = Integer.parseInt(prompt());
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		Service newService = new Service(service_id, guestID, date);
 		serviceList.addService(newService);
 	}
 
-	private void updateService() {
+	private void updateService(int input) {
 		int listID = 0;
-		int service_id = 0;
 		while (listID <= 0) {
 			System.out.println("Please Enter List ID: ");
 			listID = Integer.parseInt(prompt());
 			if (listID <= 0) {
 				System.out.println("List ID cannot be 0!");
 			}
+			int service_id = input;
 			while (service_id <= 0) {
 				System.out.println("Please Enter Service ID: ");
 				service_id = Integer.parseInt(prompt());
 				if (service_id <= 0) {
 					System.out.println("Service ID cannot be 0!");
 				}
-
 				int guestID = 0;
 				while (guestID <= 0) {
 					System.out.println("Please Enter Guest ID: ");
@@ -182,6 +256,7 @@ public class StaffApp {
 				}
 				System.out.println("Please Enter Date in YYYY-MM-DD Format");
 				String date = prompt();
+				System.out.println(date);
 				Service newService = new Service(service_id, guestID, date);
 				serviceList.updateService(listID, newService);
 
@@ -219,11 +294,30 @@ public class StaffApp {
 	}
 
 	private void addRestaurant() {
-		int guestID = 1; // From Account
-		System.out.println("Please Enter Table Number");
-		int tableNum = Integer.parseInt(prompt());
-		System.out.println("Please Enter Number of Guests");
-		int numGuests = Integer.parseInt(prompt());
+		int guestID = 0;
+		while (guestID <= 0) {
+			System.out.println("Please Enter Guest ID: ");
+			guestID = Integer.parseInt(prompt());
+			if (guestID <= 0) {
+				System.out.println("Guest ID cannot be 0!");
+			}
+		}
+		int tableNum = 0;
+		while (tableNum <= 0) {
+			System.out.println("Please Enter Table Number: ");
+			tableNum = Integer.parseInt(prompt());
+			if (tableNum <= 0) {
+				System.out.println("Table Number cannot be 0!");
+			}
+		}
+		int numGuests = 0;
+		while (numGuests <= 0) {
+			System.out.println("Please Enter Number of Guests: ");
+			numGuests = Integer.parseInt(prompt());
+			if (numGuests <= 0) {
+				System.out.println("Number of Guests cannot be 0!");
+			}
+		}
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		RestaurantReservationForm newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
@@ -238,17 +332,35 @@ public class StaffApp {
 			if (resId <= 0) {
 				System.out.println("Reservation ID cannot be 0!");
 			}
-			int guestID = 1; // From Account
-			System.out.println("Please Enter Table Number");
-			int tableNum = Integer.parseInt(prompt());
-			System.out.println("Please Enter Number of Guests");
-			int numGuests = Integer.parseInt(prompt());
-			System.out.println("Please Enter Date in YYYY-MM-DD Format");
-			String date = prompt();
-			RestaurantReservationForm newReservation = new RestaurantReservationForm(guestID, tableNum, date,
-					numGuests);
-			resList.updateReservation(resId, newReservation);
 		}
+		int guestID = 0;
+		while (guestID <= 0) {
+			System.out.println("Please Enter Guest ID: ");
+			guestID = Integer.parseInt(prompt());
+			if (guestID <= 0) {
+				System.out.println("Guest ID cannot be 0!");
+			}
+		}
+		int tableNum = 0;
+		while (tableNum <= 0) {
+			System.out.println("Please Enter Table Number: ");
+			tableNum = Integer.parseInt(prompt());
+			if (tableNum <= 0) {
+				System.out.println("Table Number cannot be 0!");
+			}
+		}
+		int numGuests = 0;
+		while (numGuests <= 0) {
+			System.out.println("Please Enter Number of Guests: ");
+			numGuests = Integer.parseInt(prompt());
+			if (numGuests <= 0) {
+				System.out.println("Number of Guests cannot be 0!");
+			}
+		}
+		System.out.println("Please Enter Date in YYYY-MM-DD Format");
+		String date = prompt();
+		RestaurantReservationForm newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
+		resList.updateReservation(resId, newReservation);
 
 	}
 

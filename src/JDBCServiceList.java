@@ -36,12 +36,12 @@ public class JDBCServiceList {
 			return;
 		}
 
-		System.out.println("MySQL JDBC Driver Registered!");
+		// System.out.println("MySQL JDBC Driver Registered!");
 
 		try {
 			conn = DriverManager.getConnection(host, user, password);
 			stmt = conn.createStatement();
-			System.out.println("Connection Successful");
+			// System.out.println("Connection Successful");
 		} catch (SQLException e) {
 			System.out.println("Connection Failed!");
 			e.printStackTrace();
@@ -139,9 +139,11 @@ public class JDBCServiceList {
 		String date = serviceUpdate.getDate();
 		int guest_id = serviceUpdate.getGuest_id();
 
-		String sql = "UPDATE hotel.service_list" +
-					 " SET service_ID =" + "'" + service_Id + "'" + ", date_requested =" +
-				     "'" + date + "'" + ", guest_ID =" + "'" + guest_id + "'" + "WHERE list_ID = " + listID;
+		String sub1 = "(SELECT name FROM services WHERE id = " + service_Id + ")";
+		String sub2 = "(SELECT price FROM services WHERE id = " + service_Id + ")";
+		String sql = "UPDATE hotel.service_list" + " SET service_ID =" + "'" + service_Id + "', service_name = " + sub1
+				+ ", service_price = " + sub2 + ", date_requested =" + "'" + date + "'" + ", guest_ID =" + "'"
+				+ guest_id + "'" + "WHERE list_ID = " + listID;
 		try {
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -192,7 +194,7 @@ public class JDBCServiceList {
 	/**
 	 * This method views the list of all Services in the Database
 	 * 
-	 * @return Returns a List of All Services in a Hashmap
+	 * @return Returns a List of All Services in a ArrayList
 	 * @throws SQLException
 	 */
 	public List<Service> viewServices() throws SQLException {
