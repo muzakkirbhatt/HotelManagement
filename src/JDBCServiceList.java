@@ -15,7 +15,7 @@ import java.util.List;
 public class JDBCServiceList {
 
 	/** Host */
-	public final String host = "jdbc:mysql://localhost:3306/hotel";
+	public final String host = "jdbc:mysql://localhost:3306/hotelreservationdb";
 
 	/** User */
 	public final String user = "root";

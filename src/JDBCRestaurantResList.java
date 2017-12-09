@@ -24,7 +24,7 @@ public class JDBCRestaurantResList {
 	private Connection conn;
 	Statement stmt;
 	/** Host */
-	public final String host = "jdbc:mysql://localhost:3306/";
+	public final String host = "jdbc:mysql://localhost:3306/hotelreservationdb";
 
 	/** User */
 	public final String user = "root";
