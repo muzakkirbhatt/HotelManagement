@@ -290,10 +290,12 @@ public class StaffApp {
 
 	private void viewAllServices() throws SQLException {
 		List<Service> list = serviceList.viewServices();
-		System.out.println("\n" + list.toString().replace("[", "").replace("]", ""));
+		System.out.println("Requested Service Found:");
+		System.out.println(list.toString().replace("[", "").replace("]", ""));
 	}
 
 	private void addRestaurant() {
+		boolean repeat = false;
 		int guestID = 0;
 		while (guestID <= 0) {
 			System.out.println("Please Enter Guest ID: ");
@@ -321,7 +323,16 @@ public class StaffApp {
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		RestaurantReservationForm newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
-		resList.add(newReservation);
+		while (!repeat) {
+			if (!resList.add(newReservation)) {
+				System.out.println("Table is reserved for the date. Please select a different table");
+				System.out.println("Please Enter Table Number: ");
+				tableNum = Integer.parseInt(prompt());
+				newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
+				resList.add(newReservation);
+			}
+			else {repeat = true;}
+		}
 	}
 
 	private void updateRestaurant() {

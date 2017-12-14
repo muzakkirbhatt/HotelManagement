@@ -122,8 +122,8 @@ public class Service {
 
 	@Override
 	public String toString() {
-		return "Requested Service Found:  [List ID: " + list_id + ", Service ID: " + id + ", Service Name: " + name + ", Service Price: " + price + ", Guest ID: "
-				+ guest_id + ", Date Requested: " + date + "]";
+		return "\n[List ID: " + list_id + ", Service ID: " + id + ", Service Name: " + name + ", Service Price: " + price + ", Guest ID: "
+				+ guest_id + ", Date Requested: " + date + "]\n";
 	}
 
 	

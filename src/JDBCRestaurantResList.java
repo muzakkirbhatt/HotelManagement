@@ -24,7 +24,7 @@ public class JDBCRestaurantResList {
 	private Connection conn;
 	Statement stmt;
 	/** Host */
-	public final String host = "jdbc:mysql://localhost:3306/hotelreservationdb";
+	public final String host = "jdbc:mysql://localhost:3306/hotel";
 
 	/** User */
 	public final String user = "root";
@@ -74,15 +74,23 @@ public class JDBCRestaurantResList {
 		int RR_id = newReservation.getRR_id();
 		int numGuests = newReservation.getNumOfGuests();
 
-		// System.out.println("RestaurantReservationForm [guest_id=" + guest_id + ",
-		// tableNum=" + tableNum + ", resDate="
-		// + resDate + ", RR_id=" + RR_id + ", numGuests=" + numGuests + "]");
+		String search = "SELECT tableNum, date FROM restaurant_reservation_list";
 
 		String sql = "INSERT INTO hotel.restaurant_reservation_list (tableNum, numGuests, date, guestID) VALUES ('"
 				+ tableNum + "', '" + numGuests + "', '" + resDate + "', " + guest_id + ")";
 		try {
+			ResultSet rs = stmt.executeQuery(search);
+			while(rs.next()) {
+				String searchDate = rs.getString("date");
+				int searchTable = Integer.parseInt(rs.getString("tableNum"));
+				
+				if(searchDate.equalsIgnoreCase(resDate) && searchTable == tableNum) {
+					return false;
+				} 
+				
+			}
 			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-			ResultSet rs = stmt.getGeneratedKeys();
+			rs = stmt.getGeneratedKeys();
 			rs.next();
 			RR_id = rs.getInt(1);
 		} catch (SQLException e) {
