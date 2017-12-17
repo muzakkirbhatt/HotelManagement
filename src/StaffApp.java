@@ -295,7 +295,6 @@ public class StaffApp {
 	}
 
 	private void addRestaurant() {
-		boolean repeat = false;
 		int guestID = 0;
 		while (guestID <= 0) {
 			System.out.println("Please Enter Guest ID: ");
@@ -323,15 +322,15 @@ public class StaffApp {
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		RestaurantReservationForm newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
-		while (!repeat) {
-			if (!resList.add(newReservation)) {
+		boolean result = resList.add(newReservation);
+		while (!result) {
+			if (!result) {
 				System.out.println("Table is reserved for the date. Please select a different table");
 				System.out.println("Please Enter Table Number: ");
 				tableNum = Integer.parseInt(prompt());
 				newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
-				resList.add(newReservation);
+				result = resList.add(newReservation);
 			}
-			else {repeat = true;}
 		}
 	}
 
@@ -345,13 +344,6 @@ public class StaffApp {
 			}
 		}
 		int guestID = 0;
-		while (guestID <= 0) {
-			System.out.println("Please Enter Guest ID: ");
-			guestID = Integer.parseInt(prompt());
-			if (guestID <= 0) {
-				System.out.println("Guest ID cannot be 0!");
-			}
-		}
 		int tableNum = 0;
 		while (tableNum <= 0) {
 			System.out.println("Please Enter Table Number: ");
@@ -371,8 +363,16 @@ public class StaffApp {
 		System.out.println("Please Enter Date in YYYY-MM-DD Format");
 		String date = prompt();
 		RestaurantReservationForm newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
-		resList.updateReservation(resId, newReservation);
+		boolean result = resList.updateReservation(resId, newReservation);
 
+		while (!result) {
+			if (!result) {
+				System.out.println("Table is already reserved for the date. Please enter a different table number");
+				tableNum = Integer.parseInt(prompt());
+				newReservation = new RestaurantReservationForm(guestID, tableNum, date, numGuests);
+				result = resList.updateReservation(resId, newReservation);
+			}
+		}
 	}
 
 	private void deleteRestaurant() throws SQLException {

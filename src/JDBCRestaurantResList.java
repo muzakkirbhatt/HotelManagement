@@ -31,8 +31,6 @@ public class JDBCRestaurantResList {
 
 	/** Password */
 	public final String password = "";
-	
-	
 
 	public JDBCRestaurantResList() {
 		// connect to the database
@@ -40,7 +38,7 @@ public class JDBCRestaurantResList {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			System.out.println("MySQL JDBC Driver Missing");
-			e.printStackTrace(); 
+			e.printStackTrace();
 			return;
 		}
 
@@ -80,14 +78,14 @@ public class JDBCRestaurantResList {
 				+ tableNum + "', '" + numGuests + "', '" + resDate + "', " + guest_id + ")";
 		try {
 			ResultSet rs = stmt.executeQuery(search);
-			while(rs.next()) {
+			while (rs.next()) {
 				String searchDate = rs.getString("date");
 				int searchTable = Integer.parseInt(rs.getString("tableNum"));
-				
-				if(searchDate.equalsIgnoreCase(resDate) && searchTable == tableNum) {
+
+				if (searchDate.equalsIgnoreCase(resDate) && searchTable == tableNum) {
 					return false;
-				} 
-				
+				}
+
 			}
 			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			rs = stmt.getGeneratedKeys();
@@ -147,11 +145,22 @@ public class JDBCRestaurantResList {
 	 *         false
 	 */
 	public boolean updateReservation(int reservationID, RestaurantReservationForm newRes) {
+		String search = "SELECT tableNum, date FROM restaurant_reservation_list";
 		String sql = "UPDATE hotel.restaurant_reservation_list" + " SET tableNum =" + "'" + newRes.getTableNum() + "'"
 				+ ", numGuests =" + "'" + newRes.getNumOfGuests() + "'" + ", date =" + "'" + newRes.getResDate() + "'"
 				+ "WHERE id = " + reservationID;
 		try {
-			stmt.executeUpdate(sql);
+			ResultSet rs = stmt.executeQuery(search);
+			while (rs.next()) {
+				String searchDate = rs.getString("date");
+				int searchTable = Integer.parseInt(rs.getString("tableNum"));
+
+				if (searchDate.equalsIgnoreCase(newRes.getResDate()) && searchTable == newRes.getTableNum()) {
+					return false;
+				}
+
+				stmt.executeUpdate(sql);
+			}
 		} catch (SQLException e) {
 			System.out.println("Update failed");
 			e.printStackTrace();
